@@ -24,9 +24,9 @@ class LastFmUser(models.Model):
         tracks = [dict([(d.tag, d.text) for d in t]) for t in r]
         for track in tracks:
             try:
-                row = Track.objects.get(title=track.name, artist=track.artist, lastfm_user=self)
+                row = Track.objects.get(title=track['name'], artist=track['artist'], lastfm_user=self)
             except ObjectDoesNotExist:
-                t = Track(title=track.name, artist=track.artist, slug=slugify(track.name), lastfm_user=self)
+                t = Track(title=track['name'], artist=track['artist'], slug=slugify(track['name']), lastfm_user=self)
                 t.save()
 
 class Track(models.Model):
@@ -45,4 +45,4 @@ class Track(models.Model):
         pass
 
     def __unicode__(self):
-        return _("%s by %s", (self.title, self.artist))
+        return _("%s by %s" % (self.title, self.artist))
